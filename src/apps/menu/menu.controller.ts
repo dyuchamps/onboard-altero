@@ -1,36 +1,20 @@
-import {
-  Body,
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Post,
-} from '@nestjs/common';
-import { CreateMenuDto } from './dtos/create-menu.dto';
-import { MenuService } from './menu.service';
+import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
+import { ErrorInterceptor } from 'src/middlewares/errors.interceptors';
+import { UCMenu } from 'src/usecases/menu/menu.uc.main';
+import { ResponseBodyDTO_Menu } from './menu.dto';
 
-@Controller('menu')
+@Controller('menus')
+@UseInterceptors(ErrorInterceptor)
 export class MenuController {
-  constructor(private menuService: MenuService) {}
+  constructor(private ucMenu: UCMenu) {}
 
   @Get()
-  async listMenus() {
-    return this.menuService.findAll();
+  async listMenu(): Promise<ResponseBodyDTO_Menu[]> {
+    return await this.ucMenu.listMenu();
   }
 
-  @Get('/:id')
-  async getMenu(@Param('id') id: string) {
-    const menu = await this.menuService.findOne(id);
-
-    if (!menu) {
-      throw new NotFoundException('Menu not found');
-    }
-
-    return menu;
-  }
-
-  @Post()
-  async createMenu(@Body() body: CreateMenuDto) {
-    return this.menuService.create(body.id);
+  @Get(':id')
+  async getMenu(@Param(':id') id: number): Promise<ResponseBodyDTO_Menu> {
+    return await this.ucMenu.getMenu(id);
   }
 }

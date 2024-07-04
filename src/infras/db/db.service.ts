@@ -14,7 +14,7 @@ import {
   PostgresJsTransaction,
 } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
-import postgres from 'postgres';
+import * as postgres from 'postgres';
 import { config } from 'src/configs';
 
 export type Schema = {
@@ -29,11 +29,14 @@ export type Schema = {
 
 export type schemaWithRelations = ExtractTablesWithRelations<Schema>;
 
+@Injectable()
 export class DB {
   db: PostgresJsDatabase<Schema>;
 
   constructor() {
-    const migrationClient = postgres(config.DB_CONNECTION_STRING, { max: 1 });
+    const migrationClient = postgres(config.DB_CONNECTION_STRING, {
+      max: 1,
+    });
     this.migrate(migrationClient);
 
     const queryClient = postgres(config.DB_CONNECTION_STRING);
@@ -52,7 +55,7 @@ export class DB {
 
   async migrate(migrationClient: postgres.Sql<Record<string, never>>) {
     await migrate(drizzle(migrationClient), {
-      migrationsFolder: './drizzle',
+      migrationsFolder: './drizzle-db',
       migrationsTable: 'drizzle_onboard_altero',
     });
 
@@ -71,7 +74,7 @@ export class DBService {
 }
 
 @Module({
-  providers: [DB, DBService],
+  providers: [DBService, DB],
   exports: [DBService],
 })
 export class DBModule {}

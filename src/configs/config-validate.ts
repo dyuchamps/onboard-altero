@@ -12,7 +12,17 @@ export function validateConfig(configuration: Record<string, unknown>) {
   });
 
   const errors = validateSync(finalConfig, { skipMissingProperties: false });
-  if (errors.length > 0) {
-    throw new Error(errors.toString());
+
+  let index = 0;
+  for (const error of errors) {
+    Object.values(error.constraints).map((str) => {
+      ++index;
+      console.log(`Error ${index}: ${str}`);
+    });
   }
+  if (errors.length) {
+    throw new Error('Config validation failed');
+  }
+
+  return finalConfig;
 }

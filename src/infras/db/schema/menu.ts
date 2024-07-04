@@ -9,7 +9,7 @@ import {
 } from 'drizzle-orm/pg-core';
 
 export const menus = pgTable('menus', {
-  id: bigserial('id', { mode: 'bigint' }).primaryKey().notNull(),
+  id: bigserial('id', { mode: 'number' }).primaryKey().notNull(),
   name: varchar('name').notNull(),
   price: numeric('price').notNull(),
   stock: integer('stock').notNull(),

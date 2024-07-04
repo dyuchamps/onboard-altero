@@ -3,10 +3,12 @@ import * as dotenv from 'dotenv';
 import { validateConfig } from './config-validate';
 dotenv.config();
 
-export class Config {
+import * as path from 'path';
+
+export class Configs {
   constructor(private configService: ConfigService) {}
   getEnvironment(path: string) {
-    return this.configService.get(path);
+    return this.configService.get(`${path}`);
   }
 }
 
@@ -15,8 +17,9 @@ const configService = new ConfigService({
   validate: validateConfig,
 });
 
-const configs = new Config(configService);
+const configs = new Configs(configService);
 
 export const config = {
+  DRIZZLE_MIGRATION_PATH: path.join(process.cwd(), 'drizzle-db'),
   DB_CONNECTION_STRING: configs.getEnvironment('DB_CONNECTION_STRING'),
 };

@@ -1,29 +1,26 @@
 import {
-  bigserial,
   integer,
-  numeric,
   pgTable,
+  real,
   text,
   timestamp,
   varchar,
 } from 'drizzle-orm/pg-core';
 
 export const menus = pgTable('menus', {
-  id: bigserial('id', { mode: 'number' }).primaryKey().notNull(),
+  id: varchar('id').primaryKey().notNull(),
   name: varchar('name').notNull(),
-  price: numeric('price').notNull(),
+  price: real('price').notNull(),
   stock: integer('stock').notNull(),
   description: text('description'),
   createdAt: timestamp('created_at', {
     withTimezone: true,
     mode: 'date',
   })
-    .defaultNow()
-    .notNull(),
+    .notNull()
+    .defaultNow(),
   updatedAt: timestamp('updated_at', {
     withTimezone: true,
     mode: 'date',
-  })
-    .defaultNow()
-    .notNull(),
+  }).notNull(),
 });

@@ -1,39 +1,41 @@
 import {
-  bigserial,
   integer,
   numeric,
   pgTable,
   timestamp,
+  varchar,
 } from 'drizzle-orm/pg-core';
 import { cashiers } from './cashier';
 import { customers } from './customer';
+import { fillings } from './filling';
 import { menus } from './menu';
 import { toppings } from './topping';
-import { users } from './user';
 
 export const orders = pgTable('orders', {
-  id: bigserial('id', { mode: 'bigint' }).primaryKey().notNull(),
-  customerId: bigserial('customer_id', { mode: 'bigint' })
+  id: varchar('id').primaryKey().notNull(),
+  customerId: varchar('customer_id')
     .notNull()
     .references(() => customers.id),
-  cashierId: bigserial('cashier_id', { mode: 'bigint' })
+  cashierId: varchar('cashier_id')
     .notNull()
     .references(() => cashiers.id),
-  menuId: bigserial('menu_id', { mode: 'bigint' })
+  menuId: varchar('menu_id')
     .notNull()
     .references(() => menus.id),
-  toppingId: bigserial('topping_id', { mode: 'bigint' })
+  toppingId: varchar('topping_id')
     .notNull()
     .references(() => toppings.id),
-  fillingId: bigserial('filling_id', { mode: 'bigint' })
+  fillingId: varchar('filling_id')
     .notNull()
-    .references(() => users.id),
+    .references(() => fillings.id),
   quantity: integer('quantity').notNull(),
   totalAmount: numeric('total_amount').notNull(),
   createdAt: timestamp('created_at', {
     withTimezone: true,
     mode: 'date',
-  }).notNull(),
+  })
+    .notNull()
+    .defaultNow(),
   updatedAt: timestamp('updated_at', {
     withTimezone: true,
     mode: 'date',

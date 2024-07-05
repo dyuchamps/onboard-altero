@@ -1,66 +1,66 @@
 CREATE TABLE IF NOT EXISTS "cashiers" (
-	"id" bigserial PRIMARY KEY NOT NULL,
-	"user_id" bigserial NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
+	"user_id" varchar NOT NULL,
 	"first_name" varchar(246) NOT NULL,
 	"last_name" varchar(246) NOT NULL,
-	"created_at" timestamp with time zone NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "customers" (
-	"id" bigserial PRIMARY KEY NOT NULL,
-	"user_id" bigserial NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
+	"user_id" varchar NOT NULL,
 	"first_name" varchar(246) NOT NULL,
 	"last_name" varchar(246) NOT NULL,
-	"created_at" timestamp with time zone NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "fillings" (
-	"id" bigserial PRIMARY KEY NOT NULL,
-	"menu_id" bigserial NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
+	"menu_id" varchar NOT NULL,
 	"name" varchar NOT NULL,
 	"price" numeric NOT NULL,
-	"created_at" timestamp with time zone NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "menus" (
-	"id" bigserial PRIMARY KEY NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
 	"name" varchar NOT NULL,
-	"price" numeric NOT NULL,
+	"price" real NOT NULL,
 	"stock" integer NOT NULL,
 	"description" text,
-	"created_at" timestamp with time zone,
-	"updated_at" timestamp with time zone
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "orders" (
-	"id" bigserial PRIMARY KEY NOT NULL,
-	"customer_id" bigserial NOT NULL,
-	"cashier_id" bigserial NOT NULL,
-	"menu_id" bigserial NOT NULL,
-	"topping_id" bigserial NOT NULL,
-	"filling_id" bigserial NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
+	"customer_id" varchar NOT NULL,
+	"cashier_id" varchar NOT NULL,
+	"menu_id" varchar NOT NULL,
+	"topping_id" varchar NOT NULL,
+	"filling_id" varchar NOT NULL,
 	"quantity" integer NOT NULL,
 	"total_amount" numeric NOT NULL,
-	"created_at" timestamp with time zone NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "toppings" (
-	"id" bigserial PRIMARY KEY NOT NULL,
-	"menu_id" bigserial NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
+	"menu_id" varchar NOT NULL,
 	"name" varchar NOT NULL,
 	"price" numeric NOT NULL,
-	"created_at" timestamp with time zone NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
-	"id" bigserial PRIMARY KEY NOT NULL,
+	"id" varchar PRIMARY KEY NOT NULL,
 	"email" varchar(246) NOT NULL,
-	"created_at" timestamp with time zone NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
@@ -107,7 +107,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "orders" ADD CONSTRAINT "orders_filling_id_users_id_fk" FOREIGN KEY ("filling_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "orders" ADD CONSTRAINT "orders_filling_id_fillings_id_fk" FOREIGN KEY ("filling_id") REFERENCES "public"."fillings"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

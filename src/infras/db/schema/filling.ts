@@ -1,15 +1,9 @@
-import {
-  bigserial,
-  numeric,
-  pgTable,
-  timestamp,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { numeric, pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
 import { menus } from './menu';
 
 export const fillings = pgTable('fillings', {
-  id: bigserial('id', { mode: 'bigint' }).primaryKey().notNull(),
-  menuId: bigserial('menu_id', { mode: 'bigint' })
+  id: varchar('id').primaryKey().notNull(),
+  menuId: varchar('menu_id')
     .notNull()
     .references(() => menus.id),
   name: varchar('name').notNull(),
@@ -17,7 +11,9 @@ export const fillings = pgTable('fillings', {
   createdAt: timestamp('created_at', {
     withTimezone: true,
     mode: 'date',
-  }).notNull(),
+  })
+    .notNull()
+    .defaultNow(),
   updatedAt: timestamp('updated_at', {
     withTimezone: true,
     mode: 'date',

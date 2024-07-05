@@ -1,5 +1,5 @@
 {
-  "id": "fd4fbb84-606f-49f6-b302-45b7549a2a29",
+  "id": "1bff8968-8720-4159-b3e0-325f12d53828",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -10,13 +10,13 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": true,
           "notNull": true
         },
         "user_id": {
           "name": "user_id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -36,7 +36,8 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
@@ -70,13 +71,13 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": true,
           "notNull": true
         },
         "user_id": {
           "name": "user_id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -96,7 +97,8 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
@@ -130,13 +132,13 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": true,
           "notNull": true
         },
         "menu_id": {
           "name": "menu_id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -156,7 +158,8 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
@@ -190,7 +193,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": true,
           "notNull": true
         },
@@ -202,7 +205,7 @@
         },
         "price": {
           "name": "price",
-          "type": "numeric",
+          "type": "real",
           "primaryKey": false,
           "notNull": true
         },
@@ -222,13 +225,14 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -242,37 +246,37 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": true,
           "notNull": true
         },
         "customer_id": {
           "name": "customer_id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "cashier_id": {
           "name": "cashier_id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "menu_id": {
           "name": "menu_id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "topping_id": {
           "name": "topping_id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "filling_id": {
           "name": "filling_id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -292,7 +296,8 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
@@ -355,10 +360,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "orders_filling_id_users_id_fk": {
-          "name": "orders_filling_id_users_id_fk",
+        "orders_filling_id_fillings_id_fk": {
+          "name": "orders_filling_id_fillings_id_fk",
           "tableFrom": "orders",
-          "tableTo": "users",
+          "tableTo": "fillings",
           "columnsFrom": [
             "filling_id"
           ],
@@ -378,13 +383,13 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": true,
           "notNull": true
         },
         "menu_id": {
           "name": "menu_id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -404,7 +409,8 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
@@ -438,7 +444,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigserial",
+          "type": "varchar",
           "primaryKey": true,
           "notNull": true
         },
@@ -452,7 +458,8 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",

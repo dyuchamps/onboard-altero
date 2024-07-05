@@ -7,10 +7,6 @@ import { ServicesModule } from 'src/services/services.module';
 export class UCMenu {
   constructor(private repMenu: RepMenu) {}
 
-  // async getMenu(id: bigint): Promise<ResponseBodyDTO_Menu> {
-  //   return await this.repMenu.getMenuById(id);
-  // }
-
   async listMenu(): Promise<Array<Menu>> {
     return await this.repMenu.listMenu();
   }
@@ -21,16 +17,16 @@ export class UCMenu {
 
   async createMenu(
     name: string,
-    price: number,
+    price: string,
     stock: number,
     description: string,
   ): Promise<string> {
     const response = await this.repMenu.create(name, price, stock, description);
 
-    const timestamp = new Date().getTime();
-    const uniqueId = `${response.id}-${timestamp}`;
+    // const timestamp = new Date().getTime();
+    // const uniqueId = `${response.id}-${timestamp}`;
 
-    return `Menu ${response.name} created successfully`;
+    return response[0];
   }
 }
 

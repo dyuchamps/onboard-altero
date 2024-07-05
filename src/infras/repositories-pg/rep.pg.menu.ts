@@ -37,18 +37,17 @@ export class RepPGMenu extends RepPG implements RepMenu {
 
   async create(
     name: string,
-    price: number,
+    price: string,
     stock: number,
     description: string,
   ): Promise<any> {
     try {
-      const uniqueId = Math.floor(Math.random() * 1000);
+      // const uniqueId = Math.floor(Math.random() * 1000);
       const newMenu = {
-        id: uniqueId,
-        name,
-        price,
-        stock,
-        description,
+        name: name,
+        price: price,
+        stock: stock,
+        description: description,
         created_at: new Date(),
         updated_at: new Date(),
       };

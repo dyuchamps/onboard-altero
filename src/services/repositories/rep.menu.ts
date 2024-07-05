@@ -1,4 +1,7 @@
-import { ResponseBodyDTO_Menu } from 'src/apps/menu/menu.dto';
+import {
+  RequestBodyDTO_CreateMenu,
+  ResponseBodyDTO_Menu,
+} from 'src/apps/menu/menu.dto';
 import { PersistedEntity } from 'src/domains/entities/base';
 import { Menu } from 'src/domains/entities/menu';
 
@@ -9,14 +12,11 @@ export class PersistedMenu extends Menu implements PersistedEntity {
 
   constructor(
     id: bigint,
-
+    createdAt: Date,
+    updatedAt: Date,
     name: string,
     price: number,
     description: string,
-
-    // Base Entity
-    createdAt?: Date,
-    updatedAt?: Date,
   ) {
     super(id, name, price, description, createdAt, updatedAt);
     this.id = id;
@@ -34,8 +34,8 @@ export abstract class RepMenu {
 
   abstract create(
     name: string,
-    price: number,
+    price: string,
     stock: number,
     description: string,
-  ): Promise<Menu>;
+  ): Promise<RequestBodyDTO_CreateMenu>;
 }

@@ -1,3 +1,5 @@
+import { IsInt, IsString } from 'class-validator';
+
 export class ResponseBodyDTO_Menu {
   id: bigint;
   name: string;
@@ -7,11 +9,23 @@ export class ResponseBodyDTO_Menu {
   updatedAt: Date;
 
   constructor(data: any) {
-    this.id = data.menu.id;
-    this.name = data.menu.name;
-    this.price = data.menu.price;
-    this.description = data.menu.description;
-    this.createdAt = data.menu.createdAt;
-    this.updatedAt = data.menu.updatedAt;
+    this.id = data.menus.id;
+    this.name = data.menus.name;
+    this.price = data.menus.price;
+    this.description = data.menus.description;
+    this.createdAt = data.menus.createdAt;
+    this.updatedAt = data.menus.updatedAt;
   }
+}
+
+export class RequestBodyDTO_CreateMenu {
+  @IsString()
+  name: string;
+  price: string;
+
+  @IsInt()
+  stock: number;
+
+  @IsString()
+  description: string;
 }

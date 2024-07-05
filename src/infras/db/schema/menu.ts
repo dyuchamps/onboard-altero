@@ -14,6 +14,16 @@ export const menus = pgTable('menus', {
   price: numeric('price').notNull(),
   stock: integer('stock').notNull(),
   description: text('description'),
-  createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }),
-  updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }),
+  createdAt: timestamp('created_at', {
+    withTimezone: true,
+    mode: 'date',
+  })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp('updated_at', {
+    withTimezone: true,
+    mode: 'date',
+  })
+    .defaultNow()
+    .notNull(),
 });

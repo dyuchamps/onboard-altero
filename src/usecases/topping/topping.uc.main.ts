@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Injectable, Module } from '@nestjs/common';
+import { QueryParam_Topping } from 'src/apps/topping/topping.query.params';
 import { Topping } from 'src/domains/entities/topping';
 import { RepTopping } from 'src/services/repositories/rep.topping';
 import { ServicesModule } from 'src/services/services.module';
 import { ToppingNotFound } from './topping.uc.errors';
 
+@Injectable()
 export class UCTopping {
   constructor(private repTopping: RepTopping) {}
 
@@ -14,6 +16,19 @@ export class UCTopping {
     }
 
     return data;
+  }
+
+  async listTopping(query: QueryParam_Topping): Promise<Array<Topping>> {
+    // if (query instanceof QueryParam_Topping) {
+    //   throw new QueryNotFound('Query is not valid');
+    // }
+    // console.log('line 25:', query);
+    const listTopping = await this.repTopping.listTopping(query);
+    if (listTopping.length === 0) {
+      throw new ToppingNotFound('Topping is empty');
+    }
+
+    return listTopping;
   }
 }
 

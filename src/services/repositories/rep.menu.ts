@@ -26,9 +26,9 @@ export class PersistedMenu extends Menu implements PersistedEntity {
 }
 
 export abstract class RepMenu {
-  abstract getMenuById(id: string): Promise<ResponseBodyDTO_Menu>;
-
   abstract persist(menu: Menu): Promise<PersistedMenu>;
+
+  abstract getMenuById(id: string): Promise<ResponseBodyDTO_Menu>;
 
   abstract listMenu(): Promise<PersistedMenu[]>;
 

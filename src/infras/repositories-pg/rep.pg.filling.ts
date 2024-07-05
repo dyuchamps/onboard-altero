@@ -3,25 +3,25 @@ import { and, eq, SQL } from 'drizzle-orm';
 import { ResponseBodyDTO_Topping } from 'src/apps/topping/topping.dto';
 import { QueryParam_Topping } from 'src/apps/topping/topping.query.params';
 import {
-  PersistedTopping,
-  RepTopping,
-} from 'src/services/repositories/rep.topping';
+  PersistedFilling,
+  RepFilling,
+} from 'src/services/repositories/rep.filling';
+import { fillings } from '../db/schema/filling';
 import { menus } from '../db/schema/menu';
-import { toppings } from '../db/schema/topping';
 import { RepPG } from './rep.pg';
 
 @Injectable()
-export class RepPGTopping extends RepPG implements RepTopping {
-  persist(): Promise<PersistedTopping> {
+export class RepPGFilling extends RepPG implements RepFilling {
+  persist(): Promise<PersistedFilling> {
     throw new Error('Method not implemented.');
   }
 
-  async getToppingById(id: string): Promise<any> {
+  async getFillingById(id: string): Promise<any> {
     try {
       const data = await this.getDBContext()
         .select()
-        .from(toppings)
-        .where(eq(toppings.id, id))
+        .from(fillings)
+        .where(eq(fillings.id, id))
         .limit(1);
 
       if (!data.length) return null;
@@ -31,14 +31,14 @@ export class RepPGTopping extends RepPG implements RepTopping {
     }
   }
 
-  async listTopping(
+  async listFilling(
     query: QueryParam_Topping,
   ): Promise<ResponseBodyDTO_Topping[]> {
     const whereQuery: SQL[] = [];
 
     const queryFields = {
-      id: toppings.id,
-      menuId: toppings.menuId,
+      id: fillings.id,
+      menuId: fillings.menuId,
     };
 
     for (const key in queryFields) {
@@ -49,8 +49,8 @@ export class RepPGTopping extends RepPG implements RepTopping {
 
     const response = await this.getDBContext()
       .select()
-      .from(toppings)
-      .leftJoin(menus, eq(menus.id, toppings.menuId))
+      .from(fillings)
+      .leftJoin(menus, eq(menus.id, fillings.menuId))
       .where(and(...whereQuery));
 
     const filteredResponseDTO = [];

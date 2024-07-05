@@ -1,16 +1,19 @@
+import { Module } from '@nestjs/common';
 import { ServicesModule } from 'src/services/services.module';
 import { UCToppingModule } from 'src/usecases/topping/topping.uc.main';
-import { MenuErrorHandler } from '../menu/menu.error-handler';
+import { ErrorHandler } from '../error-handler';
+import { ToppingController } from './topping.controller';
+import { ToppingErrorHandler } from './topping.error-handler';
 
 @Module({
   imports: [ServicesModule, UCToppingModule],
   providers: [
     UCToppingModule,
     {
-      provide: MenuErrorHandler,
-      useClass: MenuErrorHandler,
+      provide: ErrorHandler,
+      useClass: ToppingErrorHandler,
     },
   ],
-  controllers: [MenuController],
+  controllers: [ToppingController],
 })
-export class AppMenuModule {}
+export class AppToppingModule {}

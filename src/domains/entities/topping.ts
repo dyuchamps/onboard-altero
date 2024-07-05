@@ -1,23 +1,23 @@
-export class Menu {
+export class Topping {
   id: string;
+  menuId: string;
   name: string;
   price: number;
-  description: string;
   createdAt: Date;
   updatedAt: Date;
 
   constructor(
     id: string,
+    menuId: string,
     name: string,
     price: number,
-    description: string,
     createdAt: Date,
     updatedAt: Date,
   ) {
     this.id = id;
+    this.menuId = menuId;
     this.name = name;
     this.price = price;
-    this.description = description;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }

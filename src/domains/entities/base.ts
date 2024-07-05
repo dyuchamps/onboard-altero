@@ -1,5 +1,5 @@
 export interface PersistedEntity {
-  id: bigint;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
 }

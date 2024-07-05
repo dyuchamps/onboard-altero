@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import { PersistedMenu, RepMenu } from 'src/services/repositories/rep.menu';
+import { generateRandomString } from 'src/utils/randomString';
 import { menus } from '../db/schema/menu';
 import { RepPG } from './rep.pg';
 
@@ -10,7 +11,7 @@ export class RepPGMenu extends RepPG implements RepMenu {
     throw new Error('Method not implemented.');
   }
 
-  async getMenuById(id: number): Promise<any> {
+  async getMenuById(id: string): Promise<any> {
     try {
       const data = await this.getDBContext()
         .select()
@@ -37,24 +38,24 @@ export class RepPGMenu extends RepPG implements RepMenu {
 
   async create(
     name: string,
-    price: string,
+    price: number,
     stock: number,
     description: string,
   ): Promise<any> {
     try {
-      // const uniqueId = Math.floor(Math.random() * 1000);
+      const uniqueId = generateRandomString(10);
       const newMenu = {
+        id: uniqueId,
         name: name,
         price: price,
         stock: stock,
         description: description,
-        created_at: new Date(),
-        updated_at: new Date(),
+        updatedAt: new Date(),
       };
 
       const createMenu = await this.getDBContext()
         .insert(menus)
-        .values(newMenu)
+        .values(newMenu as any)
         .returning();
 
       if (!createMenu) {
@@ -64,6 +65,38 @@ export class RepPGMenu extends RepPG implements RepMenu {
         );
       }
       return createMenu;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async update(
+    id: string,
+    name: string,
+    price: number,
+    stock: number,
+    description: string,
+  ): Promise<any> {
+    try {
+      const updateMenu = await this.getDBContext()
+        .update(menus)
+        .set({
+          name: name,
+          price: price,
+          stock: stock,
+          description: description,
+          updatedAt: new Date(),
+        })
+        .where(eq(menus.id, id))
+        .returning();
+
+      if (!updateMenu) {
+        throw new HttpException(
+          'Failed to update menu :',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      return updateMenu;
     } catch (error) {
       throw error;
     }

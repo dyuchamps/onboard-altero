@@ -6,12 +6,12 @@ import { PersistedEntity } from 'src/domains/entities/base';
 import { Menu } from 'src/domains/entities/menu';
 
 export class PersistedMenu extends Menu implements PersistedEntity {
-  id: bigint;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
 
   constructor(
-    id: bigint,
+    id: string,
     createdAt: Date,
     updatedAt: Date,
     name: string,
@@ -26,7 +26,7 @@ export class PersistedMenu extends Menu implements PersistedEntity {
 }
 
 export abstract class RepMenu {
-  abstract getMenuById(id: number): Promise<ResponseBodyDTO_Menu>;
+  abstract getMenuById(id: string): Promise<ResponseBodyDTO_Menu>;
 
   abstract persist(menu: Menu): Promise<PersistedMenu>;
 
@@ -34,8 +34,16 @@ export abstract class RepMenu {
 
   abstract create(
     name: string,
-    price: string,
+    price: number,
     stock: number,
     description: string,
   ): Promise<RequestBodyDTO_CreateMenu>;
+
+  abstract update(
+    id: string,
+    name: string,
+    price: number,
+    stock: number,
+    description: string,
+  ): Promise<any>;
 }

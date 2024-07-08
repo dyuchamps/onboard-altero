@@ -38,7 +38,7 @@ export class RepPGTopping extends RepPG implements RepTopping {
 
     const queryFields = {
       id: toppings.id,
-      menuId: toppings.menuId,
+      menu_id: toppings.menuId,
     };
 
     for (const key in queryFields) {

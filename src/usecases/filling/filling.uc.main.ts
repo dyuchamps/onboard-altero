@@ -1,7 +1,6 @@
 import { Injectable, Module } from '@nestjs/common';
-import { QueryParam_Topping } from 'src/apps/topping/topping.query.params';
+import { QueryParam_Filling } from 'src/apps/filling/filling.query.params';
 import { Filling } from 'src/domains/entities/filling';
-import { Topping } from 'src/domains/entities/topping';
 import { RepFilling } from 'src/services/repositories/rep.filling';
 import { ServicesModule } from 'src/services/services.module';
 import { FillingNotFound } from './filling.uc.errors';
@@ -10,23 +9,23 @@ import { FillingNotFound } from './filling.uc.errors';
 export class UCFilling {
   constructor(private repFilling: RepFilling) {}
 
-  async getFilling(id: string): Promise<Topping> {
+  async getFilling(id: string): Promise<Filling> {
     const data = await this.repFilling.getFillingById(id);
     if (!data) {
-      throw new FillingNotFound('Topping Not Found');
+      throw new FillingNotFound('Filling Not Found');
     }
 
     return data;
   }
 
-  async listFilling(query: QueryParam_Topping): Promise<Array<Filling>> {
-    // if (query instanceof QueryParam_Topping) {
-    //   throw new QueryNotFound('Query is not valid');
-    // }
-    // console.log('line 25:', query);
+  async listFilling(query: QueryParam_Filling): Promise<Array<Filling>> {
     const listFilling = await this.repFilling.listFilling(query);
     if (listFilling.length === 0) {
-      throw new FillingNotFound('Topping is empty');
+      throw new FillingNotFound('Filling is empty');
+    }
+
+    if (!listFilling) {
+      throw new FillingNotFound('Filling Not Found');
     }
 
     return listFilling;
@@ -38,4 +37,4 @@ export class UCFilling {
   providers: [UCFilling],
   exports: [UCFilling],
 })
-export class UCToppingModule {}
+export class UCFillingModule {}

@@ -4,7 +4,9 @@ import { validateConfig } from 'src/configs/config-validate';
 import { DBModule } from 'src/infras/db/db.service';
 import { LoggerMiddleware } from 'src/middlewares/logger.middleware';
 import { ServicesModule } from 'src/services/services.module';
+import { AppFillingModule } from './filling/filling.app';
 import { AppMenuModule } from './menu/menu.app';
+import { AppOrderModule } from './order/order.app';
 import { AppToppingModule } from './topping/topping.app';
 
 @Controller()
@@ -25,8 +27,17 @@ export class MainController {
     ServicesModule,
     AppMenuModule,
     AppToppingModule,
+    AppFillingModule,
+    AppOrderModule,
   ],
-  providers: [DBModule, ServicesModule, AppMenuModule, AppToppingModule],
+  providers: [
+    DBModule,
+    ServicesModule,
+    AppMenuModule,
+    AppToppingModule,
+    AppFillingModule,
+    AppOrderModule,
+  ],
   controllers: [MainController],
 })
 export class ApplicationModule {

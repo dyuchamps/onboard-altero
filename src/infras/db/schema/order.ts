@@ -22,12 +22,8 @@ export const orders = pgTable('orders', {
   menuId: varchar('menu_id')
     .notNull()
     .references(() => menus.id),
-  toppingId: varchar('topping_id')
-    .notNull()
-    .references(() => toppings.id),
-  fillingId: varchar('filling_id')
-    .notNull()
-    .references(() => fillings.id),
+  toppingId: varchar('topping_id').references(() => toppings.id),
+  fillingId: varchar('filling_id').references(() => fillings.id),
   quantity: integer('quantity').notNull(),
   totalAmount: numeric('total_amount').notNull(),
   createdAt: timestamp('created_at', {

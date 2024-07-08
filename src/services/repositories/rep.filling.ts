@@ -1,4 +1,4 @@
-import { ResponseBodyDTO_Topping } from 'src/apps/topping/topping.dto';
+import { ResponseBodyDTO_Filling } from 'src/apps/filling/filling.dto';
 import { PersistedEntity } from 'src/domains/entities/base';
 import { Filling } from 'src/domains/entities/filling';
 
@@ -25,7 +25,7 @@ export class PersistedFilling extends Filling implements PersistedEntity {
 export abstract class RepFilling {
   abstract persist(topping: Filling): Promise<PersistedFilling>;
 
-  abstract getFillingById(id: string): Promise<ResponseBodyDTO_Topping>;
+  abstract getFillingById(id: string): Promise<ResponseBodyDTO_Filling>;
 
-  abstract listFilling(query): Promise<ResponseBodyDTO_Topping[]>;
+  abstract listFilling(query): Promise<ResponseBodyDTO_Filling[]>;
 }

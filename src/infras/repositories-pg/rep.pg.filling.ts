@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq, SQL } from 'drizzle-orm';
-import { ResponseBodyDTO_Topping } from 'src/apps/topping/topping.dto';
-import { QueryParam_Topping } from 'src/apps/topping/topping.query.params';
+import { ResponseBodyDTO_Filling } from 'src/apps/filling/filling.dto';
+import { QueryParam_Filling } from 'src/apps/filling/filling.query.params';
 import {
   PersistedFilling,
   RepFilling,
@@ -32,13 +32,13 @@ export class RepPGFilling extends RepPG implements RepFilling {
   }
 
   async listFilling(
-    query: QueryParam_Topping,
-  ): Promise<ResponseBodyDTO_Topping[]> {
+    query: QueryParam_Filling,
+  ): Promise<ResponseBodyDTO_Filling[]> {
     const whereQuery: SQL[] = [];
 
     const queryFields = {
       id: fillings.id,
-      menuId: fillings.menuId,
+      menu_id: fillings.menuId,
     };
 
     for (const key in queryFields) {
@@ -47,7 +47,7 @@ export class RepPGFilling extends RepPG implements RepFilling {
       }
     }
 
-    const response = await this.getDBContext()
+    const data = await this.getDBContext()
       .select()
       .from(fillings)
       .leftJoin(menus, eq(menus.id, fillings.menuId))
@@ -55,8 +55,8 @@ export class RepPGFilling extends RepPG implements RepFilling {
 
     const filteredResponseDTO = [];
 
-    for (const event of response) {
-      const dto = new ResponseBodyDTO_Topping(event);
+    for (const event of data) {
+      const dto = new ResponseBodyDTO_Filling(event);
       filteredResponseDTO.push(dto);
     }
     return filteredResponseDTO;

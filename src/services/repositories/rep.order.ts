@@ -1,5 +1,5 @@
 import {
-  RequestBodyDTO_CreateOrder,
+  ResponseBodyDTO_CreateOrder,
   ResponseBodyDTO_Order,
 } from 'src/apps/order/order.dto';
 import { PersistedEntity } from 'src/domains/entities/base';
@@ -12,11 +12,11 @@ export class PersistedOrder extends Order implements PersistedEntity {
 
   constructor(
     id: string,
-    customerId: string,
     cashierId: string,
     menuId: string,
     toppingId: string,
     fillingId: string,
+    customerName: string,
     quantity: number,
     totalAmount: number,
     createdAt: Date,
@@ -24,11 +24,11 @@ export class PersistedOrder extends Order implements PersistedEntity {
   ) {
     super(
       id,
-      customerId,
       cashierId,
       menuId,
       toppingId,
       fillingId,
+      customerName,
       quantity,
       totalAmount,
       createdAt,
@@ -43,15 +43,16 @@ export class PersistedOrder extends Order implements PersistedEntity {
 export abstract class RepOrder {
   abstract persist(order: Order): Promise<PersistedOrder>;
 
-  abstract listOrder(query): Promise<ResponseBodyDTO_Order[]>;
+  abstract listOrder(query: any): Promise<ResponseBodyDTO_Order[]>;
 
   abstract create(
-    customerId: string,
     cashierId: string,
     menuId: string,
-    toppingId: string,
-    fillingId: string,
+    customerName: string,
     quantity: number,
-    totalAmount: number,
-  ): Promise<RequestBodyDTO_CreateOrder>;
+    toppingId?: string,
+    fillingId?: string,
+  ): Promise<ResponseBodyDTO_CreateOrder>;
+
+  abstract getCashierId(userId: string): Promise<string>;
 }

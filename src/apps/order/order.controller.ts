@@ -8,10 +8,12 @@ import {
   Res,
   UseInterceptors,
 } from '@nestjs/common';
-import { Request } from 'express';
 import { ErrorInterceptor } from 'src/middlewares/errors.interceptors';
 import { UCOrder } from 'src/usecases/order/order.uc.main';
-import { RequestBodyDTO_CreateOrder, ResponseBodyDTO_Order } from './order.dto';
+import {
+  ResponseBodyDTO_CreateOrder,
+  ResponseBodyDTO_Order,
+} from './order.dto';
 import { QueryParam_Order } from './order.query.params';
 
 @Controller('orders')
@@ -47,30 +49,30 @@ export class OrderController {
 
   @Post()
   async createOrder(
-    @Body() body: RequestBodyDTO_CreateOrder,
-    @Req() req: Request,
+    @Req() req,
     @Res() response,
-  ): Promise<RequestBodyDTO_CreateOrder> {
-    const {
-      customerId,
-      cashierId,
-      menuId,
-      toppingId,
-      fillingId,
-      quantity,
-      totalAmount,
-    } = body;
+    @Body() body: ResponseBodyDTO_CreateOrder,
+  ): Promise<ResponseBodyDTO_CreateOrder> {
+    // const user: User = req.user;
+    // if (!user) {
+    //   return response.json({
+    //     status: 401,
+    //     message: 'Unauthorized',
+    //   });
+    // }
 
-    // const user = req.user;
+    const { cashierId, menuId, toppingId, fillingId, customerName, quantity } =
+      body;
 
+    // const cashierId = await this.ucOrder.getCashierId(user.id);
+    console.log('line 68: ', cashierId);
     const data = await this.ucOrder.createOrder(
-      customerId,
       cashierId,
       menuId,
+      customerName,
+      quantity,
       toppingId,
       fillingId,
-      quantity,
-      totalAmount,
     );
 
     return response.json({

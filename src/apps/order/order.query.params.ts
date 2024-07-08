@@ -11,9 +11,5 @@ export class QueryParam_Order {
 
   @IsOptional()
   @IsString()
-  customer_id: string;
-
-  @IsOptional()
-  @IsString()
   cashier_id: string;
 }

@@ -1,5 +1,5 @@
 {
-  "id": "1bff8968-8720-4159-b3e0-325f12d53828",
+  "id": "bc7745fd-bc3e-42ae-b963-7d707a099913",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -51,67 +51,6 @@
         "cashiers_user_id_users_id_fk": {
           "name": "cashiers_user_id_users_id_fk",
           "tableFrom": "cashiers",
-          "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.customers": {
-      "name": "customers",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "first_name": {
-          "name": "first_name",
-          "type": "varchar(246)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "last_name": {
-          "name": "last_name",
-          "type": "varchar(246)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "customers_user_id_users_id_fk": {
-          "name": "customers_user_id_users_id_fk",
-          "tableFrom": "customers",
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
@@ -250,12 +189,6 @@
           "primaryKey": true,
           "notNull": true
         },
-        "customer_id": {
-          "name": "customer_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
         "cashier_id": {
           "name": "cashier_id",
           "type": "varchar",
@@ -272,10 +205,16 @@
           "name": "topping_id",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "filling_id": {
           "name": "filling_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "customer_name": {
+          "name": "customer_name",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
@@ -308,19 +247,6 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "orders_customer_id_customers_id_fk": {
-          "name": "orders_customer_id_customers_id_fk",
-          "tableFrom": "orders",
-          "tableTo": "customers",
-          "columnsFrom": [
-            "customer_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
         "orders_cashier_id_cashiers_id_fk": {
           "name": "orders_cashier_id_cashiers_id_fk",
           "tableFrom": "orders",

@@ -1,10 +1,10 @@
 export class Order {
   id: string;
-  customerId: string;
   cashierId: string;
   menuId: string;
   toppingId: string;
   fillingId: string;
+  customerName: string;
   quantity: number;
   totalAmount: number;
   createdAt: Date;
@@ -12,22 +12,22 @@ export class Order {
 
   constructor(
     id: string,
-    customerId: string,
     cashierId: string,
     menuId: string,
     toppingId: string,
     fillingId: string,
+    customerName: string,
     quantity: number,
     totalAmount: number,
     createdAt: Date,
     updatedAt: Date,
   ) {
     this.id = id;
-    this.customerId = customerId;
     this.cashierId = cashierId;
     this.menuId = menuId;
     this.toppingId = toppingId;
     this.fillingId = fillingId;
+    this.customerName = customerName;
     this.quantity = quantity;
     this.totalAmount = totalAmount;
     this.createdAt = createdAt;

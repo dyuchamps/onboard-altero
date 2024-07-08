@@ -19,25 +19,27 @@ export class UCOrder {
   }
 
   async createOrder(
-    customerId: string,
     cashierId: string,
     menuId: string,
-    toppingId: string,
-    fillingId: string,
+    customerName: string,
     quantity: number,
-    totalAmount: number,
+    toppingId?: string,
+    fillingId?: string,
   ): Promise<string> {
     const data = await this.repOrder.create(
-      customerId,
       cashierId,
       menuId,
+      customerName,
+      quantity,
       toppingId,
       fillingId,
-      quantity,
-      totalAmount,
     );
 
     return data[0];
+  }
+
+  async getCashierId(userId: string): Promise<string> {
+    return this.repOrder.getCashierId(userId);
   }
 }
 

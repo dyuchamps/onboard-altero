@@ -5,9 +5,10 @@ import { QueryParam_Order } from 'src/apps/order/order.query.params';
 import { PersistedOrder, RepOrder } from 'src/services/repositories/rep.order';
 import { generateRandomString } from 'src/utils/randomString';
 import { cashiers } from '../db/schema/cashier';
-import { customers } from '../db/schema/customer';
+import { fillings } from '../db/schema/filling';
 import { menus } from '../db/schema/menu';
 import { orders } from '../db/schema/order';
+import { toppings } from '../db/schema/topping';
 import { RepPG } from './rep.pg';
 
 @Injectable()
@@ -22,7 +23,6 @@ export class RepPGOrder extends RepPG implements RepOrder {
     const queryFields = {
       id: orders.id,
       menu_id: orders.menuId,
-      customer_id: orders.customerId,
       cashier_id: orders.cashierId,
     };
 
@@ -36,7 +36,6 @@ export class RepPGOrder extends RepPG implements RepOrder {
       .select()
       .from(orders)
       .leftJoin(menus, eq(menus.id, orders.menuId))
-      .leftJoin(customers, eq(customers.id, orders.customerId))
       .leftJoin(cashiers, eq(cashiers.id, orders.cashierId))
       .where(and(...whereQuery));
 
@@ -51,26 +50,82 @@ export class RepPGOrder extends RepPG implements RepOrder {
   }
 
   async create(
-    customerId: string,
     cashierId: string,
     menuId: string,
-    toppingId: string,
-    fillingId: string,
+    customerName: string,
     quantity: number,
-    totalAmount: number,
+    toppingId?: string,
+    fillingId?: string,
   ): Promise<any> {
     try {
+      const menu = await this.getDBContext()
+        .select()
+        .from(menus)
+        .where(eq(menus.id, menuId))
+        .limit(1);
+      if (!menu.length) {
+        throw new HttpException('Menu not found', 404);
+      }
+
+      const firstItemPrice = Number(menu[0].price);
+
+      const addOns = { topping: null, filling: null };
+      let totalAmount = 0;
+
+      const isNotNull = toppingId && fillingId ? true : false;
+      if (isNotNull) {
+        throw new HttpException('Please choose just one add-on', 400);
+      }
+
+      if (toppingId) {
+        const topping = await this.getDBContext()
+          .select()
+          .from(toppings)
+          .leftJoin(menus, eq(menus.id, menuId))
+          .where(eq(toppings.id, toppingId))
+          .limit(1);
+        if (!topping.length) {
+          throw new HttpException('Topping not found', 404);
+        }
+
+        addOns.topping = Number(topping[0]);
+      }
+
+      if (fillingId) {
+        const filling = await this.getDBContext()
+          .select()
+          .from(fillings)
+          .leftJoin(menus, eq(menus.id, menuId))
+          .where(eq(fillings.id, fillingId))
+          .limit(1);
+        if (!filling.length) {
+          throw new HttpException('Filling not found', 404);
+        }
+
+        addOns.filling = Number(filling[0]);
+      }
+
+      if (addOns.topping && typeof addOns.topping === 'number') {
+        totalAmount += addOns.topping;
+      }
+      if (addOns.filling && typeof addOns.filling === 'number') {
+        totalAmount += addOns.filling;
+      }
+
+      totalAmount += firstItemPrice;
+      totalAmount *= quantity;
+
       const uniqueId = generateRandomString(10);
 
       const newOrder = {
         id: uniqueId,
-        customerId: customerId,
-        cashierId: cashierId,
-        menuId: menuId,
-        toppingId: toppingId,
-        fillingId: fillingId,
-        quantity: quantity,
-        totalAmount: totalAmount,
+        cashierId,
+        menuId,
+        toppingId,
+        fillingId,
+        customerName,
+        quantity,
+        totalAmount,
         updatedAt: new Date(),
       };
 
@@ -87,6 +142,21 @@ export class RepPGOrder extends RepPG implements RepOrder {
       }
 
       return createOrder;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getCashierId(userId: string): Promise<string> {
+    try {
+      const data = await this.getDBContext()
+        .select()
+        .from(cashiers)
+        .where(eq(cashiers.userId, userId))
+        .limit(1);
+
+      if (!data.length) return null;
+      else return data[0].id;
     } catch (error) {
       throw error;
     }

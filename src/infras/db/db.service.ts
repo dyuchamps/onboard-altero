@@ -1,6 +1,5 @@
 import { ExtractTablesWithRelations } from 'drizzle-orm';
 import * as cashierSchema from './schema/cashier';
-import * as customerSchema from './schema/customer';
 import * as fillingSchema from './schema/filling';
 import * as menuSchema from './schema/menu';
 import * as orderSchema from './schema/order';
@@ -19,7 +18,6 @@ import { config } from 'src/configs';
 
 export type Schema = {
   users: typeof userSchema.users;
-  customers: typeof customerSchema.customers;
   cashiers: typeof cashierSchema.cashiers;
   fillings: typeof fillingSchema.fillings;
   toppings: typeof toppingSchema.toppings;
@@ -43,7 +41,6 @@ export class DB {
     this.db = drizzle(queryClient, {
       schema: {
         ...userSchema,
-        ...customerSchema,
         ...cashierSchema,
         ...fillingSchema,
         ...toppingSchema,

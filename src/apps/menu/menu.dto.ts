@@ -19,6 +19,8 @@ export class ResponseBodyDTO_Menu {
 export class RequestBodyDTO_CreateMenu {
   @IsString()
   name: string;
+
+  @IsInt()
   price: number;
 
   @IsInt()

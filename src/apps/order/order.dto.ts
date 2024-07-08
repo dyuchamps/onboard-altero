@@ -1,10 +1,12 @@
+import { IsInt, IsOptional, IsString } from 'class-validator';
+
 export class ResponseBodyDTO_Order {
   id: string;
-  customerId: string;
   cashierId: string;
   menuId: string;
   toppingId: string;
   fillingId: string;
+  customerName: string;
   quantity: number;
   totalAmount: number;
   createdAt: Date;
@@ -12,11 +14,11 @@ export class ResponseBodyDTO_Order {
 
   constructor(data: any) {
     this.id = data.orders.id;
-    this.customerId = data.orders.customerId;
     this.cashierId = data.orders.cashierId;
     this.menuId = data.orders.menuId;
     this.toppingId = data.orders.toppingId;
     this.fillingId = data.orders.fillingId;
+    this.customerName = data.orders.customerName;
     this.quantity = data.orders.quantity;
     this.totalAmount = data.orders.totalAmount;
     this.createdAt = data.orders.createdAt;
@@ -25,21 +27,37 @@ export class ResponseBodyDTO_Order {
 }
 
 export class RequestBodyDTO_CreateOrder {
-  customerId: string;
   cashierId: string;
   menuId: string;
+
+  @IsOptional()
   toppingId: string;
   fillingId: string;
+
+  customerName: string;
   quantity: number;
-  totalAmount: number;
 
   constructor(data: any) {
-    this.customerId = data.orders.customerId;
     this.cashierId = data.orders.cashierId;
     this.menuId = data.orders.menuId;
     this.toppingId = data.orders.toppingId;
     this.fillingId = data.orders.fillingId;
+    this.customerName = data.orders.customerName;
     this.quantity = data.orders.quantity;
-    this.totalAmount = data.orders.totalAmount;
   }
+}
+
+export class ResponseBodyDTO_CreateOrder {
+  @IsString()
+  cashierId: string; //temporary
+  menuId: string;
+
+  @IsOptional()
+  @IsString()
+  toppingId: string;
+  fillingId: string;
+  customerName: string;
+
+  @IsInt()
+  quantity: number;
 }

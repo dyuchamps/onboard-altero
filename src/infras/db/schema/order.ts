@@ -6,16 +6,12 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 import { cashiers } from './cashier';
-import { customers } from './customer';
 import { fillings } from './filling';
 import { menus } from './menu';
 import { toppings } from './topping';
 
 export const orders = pgTable('orders', {
   id: varchar('id').primaryKey().notNull(),
-  customerId: varchar('customer_id')
-    .notNull()
-    .references(() => customers.id),
   cashierId: varchar('cashier_id')
     .notNull()
     .references(() => cashiers.id),
@@ -24,6 +20,7 @@ export const orders = pgTable('orders', {
     .references(() => menus.id),
   toppingId: varchar('topping_id').references(() => toppings.id),
   fillingId: varchar('filling_id').references(() => fillings.id),
+  customerName: varchar('customer_name').notNull(),
   quantity: integer('quantity').notNull(),
   totalAmount: numeric('total_amount').notNull(),
   createdAt: timestamp('created_at', {

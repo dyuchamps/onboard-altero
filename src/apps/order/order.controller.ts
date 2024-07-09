@@ -65,7 +65,6 @@ export class OrderController {
       body;
 
     // const cashierId = await this.ucOrder.getCashierId(user.id);
-    console.log('line 68: ', cashierId);
     const data = await this.ucOrder.createOrder(
       cashierId,
       menuId,

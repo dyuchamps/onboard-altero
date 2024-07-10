@@ -1,9 +1,11 @@
 import { Controller, Get, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { validateConfig } from 'src/configs/config-validate';
 import { DBModule } from 'src/infras/db/db.service';
 import { LoggerMiddleware } from 'src/middlewares/logger.middleware';
 import { ServicesModule } from 'src/services/services.module';
+import { AppAuthModule } from './auth/auth.app';
 import { AppFillingModule } from './filling/filling.app';
 import { AppMenuModule } from './menu/menu.app';
 import { AppOrderModule } from './order/order.app';
@@ -23,12 +25,17 @@ export class MainController {
       isGlobal: true,
       validate: validateConfig,
     }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1d' },
+    }),
     DBModule,
     ServicesModule,
     AppMenuModule,
     AppToppingModule,
     AppFillingModule,
     AppOrderModule,
+    AppAuthModule,
   ],
   providers: [
     DBModule,
@@ -37,6 +44,7 @@ export class MainController {
     AppToppingModule,
     AppFillingModule,
     AppOrderModule,
+    AppAuthModule,
   ],
   controllers: [MainController],
 })

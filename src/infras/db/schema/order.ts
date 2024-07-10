@@ -32,5 +32,5 @@ export const orders = pgTable('orders', {
   updatedAt: timestamp('updated_at', {
     withTimezone: true,
     mode: 'date',
-  }).notNull(),
+  }),
 });

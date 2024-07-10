@@ -22,5 +22,5 @@ export const menus = pgTable('menus', {
   updatedAt: timestamp('updated_at', {
     withTimezone: true,
     mode: 'date',
-  }).notNull(),
+  }),
 });

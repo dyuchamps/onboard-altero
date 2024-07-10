@@ -21,19 +21,6 @@ import { QueryParam_Order } from './order.query.params';
 export class OrderController {
   constructor(private ucOrder: UCOrder) {}
 
-  // @Get(':id')
-  // async getTopping(
-  //   @Param('id') id: string,
-  //   @Res() response,
-  // ): Promise<ResponseBodyDTO_Topping> {
-  //   const data = await this.ucTopping.getTopping(id);
-
-  //   return response.json({
-  //     status: 201,
-  //     data,
-  //   });
-  // }
-
   @Get()
   async listOrder(
     @Query() query: QueryParam_Order,

@@ -17,5 +17,5 @@ export const fillings = pgTable('fillings', {
   updatedAt: timestamp('updated_at', {
     withTimezone: true,
     mode: 'date',
-  }).notNull(),
+  }),
 });

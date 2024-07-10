@@ -25,7 +25,7 @@ export type Schema = {
   orders: typeof orderSchema.orders;
 };
 
-export type schemaWithRelations = ExtractTablesWithRelations<Schema>;
+export type SchemaWithRelations = ExtractTablesWithRelations<Schema>;
 
 @Injectable()
 export class DB {
@@ -63,7 +63,7 @@ export class DB {
 @Injectable({ scope: Scope.REQUEST })
 export class DBService {
   db: PostgresJsDatabase<Schema>;
-  public tx: PostgresJsTransaction<Schema, schemaWithRelations> | null;
+  public tx: PostgresJsTransaction<Schema, SchemaWithRelations> | null;
 
   constructor(private _db: DB) {
     this.db = _db.db;

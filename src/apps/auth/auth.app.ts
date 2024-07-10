@@ -3,6 +3,7 @@ import { ServicesModule } from 'src/services/services.module';
 import { UCAuthModule } from 'src/usecases/auth/auth.uc.main';
 import { ErrorHandler } from '../error-handler';
 import { AuthController } from './auth.controller';
+import { AuthErrorHandler } from './auth.error-handler';
 
 @Module({
   imports: [ServicesModule, UCAuthModule],
@@ -10,7 +11,7 @@ import { AuthController } from './auth.controller';
     UCAuthModule,
     {
       provide: ErrorHandler,
-      useClass: AuthController,
+      useClass: AuthErrorHandler,
     },
   ],
   controllers: [AuthController],

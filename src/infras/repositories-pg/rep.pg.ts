@@ -3,7 +3,7 @@ import {
   PostgresJsDatabase,
   PostgresJsTransaction,
 } from 'drizzle-orm/postgres-js';
-import { DBService, Schema, schemaWithRelations } from '../db/db.service';
+import { DBService, Schema, SchemaWithRelations } from '../db/db.service';
 
 @Injectable()
 export class RepPG {
@@ -11,7 +11,7 @@ export class RepPG {
 
   getDBContext():
     | PostgresJsDatabase<Schema>
-    | PostgresJsTransaction<Schema, schemaWithRelations> {
+    | PostgresJsTransaction<Schema, SchemaWithRelations> {
     if (this.dbService.tx) {
       return this.dbService.tx;
     }

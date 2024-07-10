@@ -17,5 +17,5 @@ export const cashiers = pgTable('cashiers', {
   updatedAt: timestamp('updated_at', {
     withTimezone: true,
     mode: 'date',
-  }).notNull(),
+  }),
 });

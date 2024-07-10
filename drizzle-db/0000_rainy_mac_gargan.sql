@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS "cashiers" (
 	"first_name" varchar(246) NOT NULL,
 	"last_name" varchar(246) NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "fillings" (
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS "fillings" (
 	"name" varchar NOT NULL,
 	"price" numeric NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "menus" (
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS "menus" (
 	"stock" integer NOT NULL,
 	"description" text,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "orders" (
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS "orders" (
 	"quantity" integer NOT NULL,
 	"total_amount" numeric NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "toppings" (
@@ -45,14 +45,15 @@ CREATE TABLE IF NOT EXISTS "toppings" (
 	"name" varchar NOT NULL,
 	"price" numeric NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
 	"id" varchar PRIMARY KEY NOT NULL,
 	"email" varchar(246) NOT NULL,
+	"password" text,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL
+	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
 DO $$ BEGIN

@@ -6,8 +6,10 @@ import {
   Post,
   Put,
   Res,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { Roles, RolesGuard } from 'src/middlewares/auth.guard.middleware';
 import { ErrorInterceptor } from 'src/middlewares/errors.interceptors';
 import { UCMenu } from 'src/usecases/menu/menu.uc.main';
 import {
@@ -47,6 +49,8 @@ export class MenuController {
   }
 
   @Post()
+  @Roles(['cashier'])
+  @UseGuards(RolesGuard)
   async createMenu(@Res() response, @Body() body: RequestBodyDTO_CreateMenu) {
     const { name, price, stock, description } = body;
 

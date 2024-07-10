@@ -17,5 +17,5 @@ export const toppings = pgTable('toppings', {
   updatedAt: timestamp('updated_at', {
     withTimezone: true,
     mode: 'date',
-  }).notNull(),
+  }),
 });

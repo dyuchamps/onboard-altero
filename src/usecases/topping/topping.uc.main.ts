@@ -19,10 +19,6 @@ export class UCTopping {
   }
 
   async listTopping(query: QueryParam_Topping): Promise<Array<Topping>> {
-    // if (query instanceof QueryParam_Topping) {
-    //   throw new QueryNotFound('Query is not valid');
-    // }
-    // console.log('line 25:', query);
     const listTopping = await this.repTopping.listTopping(query);
     if (listTopping.length === 0) {
       throw new ToppingNotFound('Topping is empty');

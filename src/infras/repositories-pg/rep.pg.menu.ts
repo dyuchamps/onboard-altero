@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import { PersistedMenu, RepMenu } from 'src/services/repositories/rep.menu';
-import { generateRandomString } from 'src/utils/randomString';
+import { generateRandomString } from 'src/utils/random-string';
 import { menus } from '../db/schema/menu';
 import { RepPG } from './rep.pg';
 

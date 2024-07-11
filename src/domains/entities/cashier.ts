@@ -6,14 +6,21 @@ export class Cashier {
   createdAt: Date;
   updatedAt: Date;
 
-  constructor(
-    id: string,
-    userId: string,
-    firstName: string,
-    lastName: string,
-    createdAt: Date,
-    updatedAt: Date,
-  ) {
+  constructor({
+    id,
+    userId,
+    firstName,
+    lastName,
+    createdAt,
+    updatedAt,
+  }: {
+    id: string;
+    userId: string;
+    firstName: string;
+    lastName: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }) {
     this.id = id;
     this.userId = userId;
     this.firstName = firstName;

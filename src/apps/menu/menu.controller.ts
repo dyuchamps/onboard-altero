@@ -48,7 +48,7 @@ export class MenuController {
     });
   }
 
-  @Post()
+  @Post('admin/create')
   @Roles(['cashier'])
   @UseGuards(RolesGuard)
   async createMenu(@Res() response, @Body() body: RequestBodyDTO_CreateMenu) {
@@ -63,7 +63,7 @@ export class MenuController {
     });
   }
 
-  @Put(':id')
+  @Put('/admin/create/:id')
   async updateMenu(
     @Param('id') id: string,
     @Res() response,

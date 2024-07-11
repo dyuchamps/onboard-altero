@@ -3,7 +3,7 @@ import { and, eq, SQL } from 'drizzle-orm';
 import { ResponseBodyDTO_Order } from 'src/apps/order/order.dto';
 import { QueryParam_Order } from 'src/apps/order/order.query.params';
 import { PersistedOrder, RepOrder } from 'src/services/repositories/rep.order';
-import { generateRandomString } from 'src/utils/randomString';
+import { generateRandomString } from 'src/utils/random-string';
 import { cashiers } from '../db/schema/cashier';
 import { fillings } from '../db/schema/filling';
 import { menus } from '../db/schema/menu';

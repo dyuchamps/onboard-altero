@@ -15,3 +15,29 @@ export const users = pgTable('users', {
     mode: 'date',
   }),
 });
+
+export const accessTokens = pgTable('access_tokens', {
+  id: varchar('id').primaryKey().notNull(),
+  sub: varchar('sub').notNull(),
+  createdAt: timestamp('created_at', {
+    withTimezone: true,
+    mode: 'date',
+  }).notNull(),
+  expiresAt: timestamp('expires_at', {
+    withTimezone: true,
+    mode: 'date',
+  }).notNull(),
+});
+
+export const refreshTokens = pgTable('refresh_tokens', {
+  id: varchar('id').primaryKey().notNull(),
+  accessTokenId: varchar('access_token_id').references(() => accessTokens.id),
+  createdAt: timestamp('created_at', {
+    withTimezone: true,
+    mode: 'date',
+  }).notNull(),
+  expiresAt: timestamp('expires_at', {
+    withTimezone: true,
+    mode: 'date',
+  }).notNull(),
+});

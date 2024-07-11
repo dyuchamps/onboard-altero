@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { AuthenticationMiddleware } from 'src/middlewares/auth.middleware';
 import { ServicesModule } from 'src/services/services.module';
 import { UCFillingModule } from 'src/usecases/filling/filling.uc.main';
 import { ErrorHandler } from '../error-handler';
@@ -15,4 +16,8 @@ import { FillingController } from './filling.controller';
   ],
   controllers: [FillingController],
 })
-export class AppFillingModule {}
+export class AppFillingModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthenticationMiddleware).forRoutes(FillingController);
+  }
+}

@@ -22,6 +22,27 @@
       "when": 1720601085791,
       "tag": "0002_mixed_firebird",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1720680156147,
+      "tag": "0003_cooing_old_lace",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1720685457023,
+      "tag": "0004_curly_lady_vermin",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1720686083163,
+      "tag": "0005_equal_nightshade",
+      "breakpoints": true
     }
   ]
 }

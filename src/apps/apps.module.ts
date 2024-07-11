@@ -1,6 +1,5 @@
 import { Controller, Get, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { validateConfig } from 'src/configs/config-validate';
 import { DBModule } from 'src/infras/db/db.service';
 import { LoggerMiddleware } from 'src/middlewares/logger.middleware';
@@ -24,10 +23,6 @@ export class MainController {
     ConfigModule.forRoot({
       isGlobal: true,
       validate: validateConfig,
-    }),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1d' },
     }),
     DBModule,
     ServicesModule,

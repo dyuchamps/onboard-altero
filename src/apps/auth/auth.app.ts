@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { AuthenticationMiddleware } from 'src/middlewares/auth.middleware';
 import { ServicesModule } from 'src/services/services.module';
 import { UCAuthModule } from 'src/usecases/auth/auth.uc.main';
 import { ErrorHandler } from '../error-handler';
@@ -16,4 +17,11 @@ import { AuthErrorHandler } from './auth.error-handler';
   ],
   controllers: [AuthController],
 })
-export class AppAuthModule {}
+export class AppAuthModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthenticationMiddleware)
+      .exclude('/admin/auth/login', '/admin/auth/register')
+      .forRoutes(AuthController);
+  }
+}

@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS "menus" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "orders" (
 	"id" varchar PRIMARY KEY NOT NULL,
-	"cashier_id" varchar NOT NULL,
 	"menu_id" varchar NOT NULL,
 	"topping_id" varchar,
 	"filling_id" varchar,
@@ -48,6 +47,20 @@ CREATE TABLE IF NOT EXISTS "toppings" (
 	"updated_at" timestamp with time zone
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "access_tokens" (
+	"id" varchar PRIMARY KEY NOT NULL,
+	"sub" varchar NOT NULL,
+	"created_at" timestamp with time zone NOT NULL,
+	"expires_at" timestamp with time zone NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "refresh_tokens" (
+	"id" varchar PRIMARY KEY NOT NULL,
+	"access_token_id" varchar,
+	"created_at" timestamp with time zone NOT NULL,
+	"expires_at" timestamp with time zone NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
 	"id" varchar PRIMARY KEY NOT NULL,
 	"email" varchar(246) NOT NULL,
@@ -64,12 +77,6 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "fillings" ADD CONSTRAINT "fillings_menu_id_menus_id_fk" FOREIGN KEY ("menu_id") REFERENCES "public"."menus"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "orders" ADD CONSTRAINT "orders_cashier_id_cashiers_id_fk" FOREIGN KEY ("cashier_id") REFERENCES "public"."cashiers"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -94,6 +101,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "toppings" ADD CONSTRAINT "toppings_menu_id_menus_id_fk" FOREIGN KEY ("menu_id") REFERENCES "public"."menus"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "refresh_tokens" ADD CONSTRAINT "refresh_tokens_access_token_id_access_tokens_id_fk" FOREIGN KEY ("access_token_id") REFERENCES "public"."access_tokens"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

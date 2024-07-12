@@ -43,10 +43,13 @@ export class PersistedOrder extends Order implements PersistedEntity {
 export abstract class RepOrder {
   abstract persist(order: Order): Promise<PersistedOrder>;
 
+  abstract getOrderById(id: string): Promise<any>;
+
   abstract listOrder(query: any): Promise<ResponseBodyDTO_Order[]>;
 
+  abstract getCashierId(userId: string): Promise<string>;
+
   abstract create(
-    cashierId: string,
     menuId: string,
     customerName: string,
     quantity: number,
@@ -54,5 +57,12 @@ export abstract class RepOrder {
     fillingId?: string,
   ): Promise<ResponseBodyDTO_CreateOrder>;
 
-  abstract getCashierId(userId: string): Promise<string>;
+  abstract update(
+    id: string,
+    menuId: string,
+    customerName: string,
+    quantity: number,
+    toppingId?: string,
+    fillingId?: string,
+  ): Promise<ResponseBodyDTO_CreateOrder>;
 }

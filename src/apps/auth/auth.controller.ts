@@ -35,7 +35,7 @@ export class AuthController {
       body.firstName,
       body.lastName,
     );
-    console.log('line 38: ', user);
+
     return response.json({
       statusCode: 201,
       message: 'Successfull Registration User',

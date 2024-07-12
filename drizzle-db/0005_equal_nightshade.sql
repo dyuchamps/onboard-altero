@@ -1,1 +1,0 @@
-ALTER TABLE "refresh_tokens" ALTER COLUMN "access_token_id" DROP NOT NULL;

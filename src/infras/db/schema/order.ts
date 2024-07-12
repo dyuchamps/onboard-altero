@@ -5,16 +5,12 @@ import {
   timestamp,
   varchar,
 } from 'drizzle-orm/pg-core';
-import { cashiers } from './cashier';
 import { fillings } from './filling';
 import { menus } from './menu';
 import { toppings } from './topping';
 
 export const orders = pgTable('orders', {
   id: varchar('id').primaryKey().notNull(),
-  cashierId: varchar('cashier_id')
-    .notNull()
-    .references(() => cashiers.id),
   menuId: varchar('menu_id')
     .notNull()
     .references(() => menus.id),

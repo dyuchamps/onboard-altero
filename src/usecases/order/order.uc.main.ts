@@ -9,6 +9,15 @@ import { OrderNotFound } from './order.uc.error';
 export class UCOrder {
   constructor(private repOrder: RepOrder) {}
 
+  async getOrderById(id: string): Promise<Order> {
+    const data = await this.repOrder.getOrderById(id);
+    if (data.length === 0) {
+      throw new OrderNotFound('Order not found');
+    }
+
+    return data;
+  }
+
   async listOrder(query: QueryParam_Order): Promise<Array<Order>> {
     const data = await this.repOrder.listOrder(query);
     if (data.length === 0) {
@@ -19,7 +28,6 @@ export class UCOrder {
   }
 
   async createOrder(
-    cashierId: string,
     menuId: string,
     customerName: string,
     quantity: number,
@@ -27,7 +35,6 @@ export class UCOrder {
     fillingId?: string,
   ): Promise<string> {
     const data = await this.repOrder.create(
-      cashierId,
       menuId,
       customerName,
       quantity,
@@ -40,6 +47,26 @@ export class UCOrder {
 
   async getCashierId(userId: string): Promise<string> {
     return this.repOrder.getCashierId(userId);
+  }
+
+  async updateOrder(
+    id: string,
+    menuId: string,
+    customerName: string,
+    quantity: number,
+    toppingId?: string,
+    fillingId?: string,
+  ): Promise<string> {
+    const data = await this.repOrder.update(
+      id,
+      menuId,
+      customerName,
+      quantity,
+      toppingId,
+      fillingId,
+    );
+
+    return data[0];
   }
 }
 

@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Query,
   Req,
   Res,
@@ -34,26 +35,30 @@ export class OrderController {
     });
   }
 
+  @Get(':id')
+  async getOrderById(
+    @Req() req,
+    @Res() response,
+  ): Promise<ResponseBodyDTO_Order> {
+    const { id } = req.params;
+
+    const data = await this.ucOrder.getOrderById(id);
+
+    return response.json({
+      status: 201,
+      data,
+    });
+  }
+
   @Post()
   async createOrder(
     @Req() req,
     @Res() response,
     @Body() body: ResponseBodyDTO_CreateOrder,
   ): Promise<ResponseBodyDTO_CreateOrder> {
-    // const user: User = req.user;
-    // if (!user) {
-    //   return response.json({
-    //     status: 401,
-    //     message: 'Unauthorized',
-    //   });
-    // }
+    const { menuId, toppingId, fillingId, customerName, quantity } = body;
 
-    const { cashierId, menuId, toppingId, fillingId, customerName, quantity } =
-      body;
-
-    // const cashierId = await this.ucOrder.getCashierId(user.id);
     const data = await this.ucOrder.createOrder(
-      cashierId,
       menuId,
       customerName,
       quantity,
@@ -64,6 +69,31 @@ export class OrderController {
     return response.json({
       status: 201,
       message: 'Order created successfully',
+      data,
+    });
+  }
+
+  @Put(':id')
+  async updateOrder(
+    @Req() req,
+    @Res() response,
+    @Body() body: ResponseBodyDTO_CreateOrder,
+  ): Promise<ResponseBodyDTO_CreateOrder> {
+    const { id } = req.params;
+    const { menuId, toppingId, fillingId, customerName, quantity } = body;
+
+    const data = await this.ucOrder.updateOrder(
+      id,
+      menuId,
+      customerName,
+      quantity,
+      toppingId,
+      fillingId,
+    );
+
+    return response.json({
+      status: 201,
+      message: 'Order updated successfully',
       data,
     });
   }

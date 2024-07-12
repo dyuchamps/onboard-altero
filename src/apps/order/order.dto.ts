@@ -49,7 +49,6 @@ export class RequestBodyDTO_CreateOrder {
 
 export class ResponseBodyDTO_CreateOrder {
   @IsString()
-  cashierId: string; //temporary
   menuId: string;
 
   @IsOptional()

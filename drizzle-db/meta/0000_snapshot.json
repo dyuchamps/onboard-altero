@@ -1,5 +1,5 @@
 {
-  "id": "5af045ed-78c5-4837-9753-5f81fcd570e1",
+  "id": "789e92b0-b6f5-4831-870d-63886dd825e4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -189,12 +189,6 @@
           "primaryKey": true,
           "notNull": true
         },
-        "cashier_id": {
-          "name": "cashier_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
         "menu_id": {
           "name": "menu_id",
           "type": "varchar",
@@ -247,19 +241,6 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "orders_cashier_id_cashiers_id_fk": {
-          "name": "orders_cashier_id_cashiers_id_fk",
-          "tableFrom": "orders",
-          "tableTo": "cashiers",
-          "columnsFrom": [
-            "cashier_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
         "orders_menu_id_menus_id_fk": {
           "name": "orders_menu_id_menus_id_fk",
           "tableFrom": "orders",
@@ -353,6 +334,88 @@
           "tableTo": "menus",
           "columnsFrom": [
             "menu_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.access_tokens": {
+      "name": "access_tokens",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "sub": {
+          "name": "sub",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.refresh_tokens": {
+      "name": "refresh_tokens",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "access_token_id": {
+          "name": "access_token_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "refresh_tokens_access_token_id_access_tokens_id_fk": {
+          "name": "refresh_tokens_access_token_id_access_tokens_id_fk",
+          "tableFrom": "refresh_tokens",
+          "tableTo": "access_tokens",
+          "columnsFrom": [
+            "access_token_id"
           ],
           "columnsTo": [
             "id"

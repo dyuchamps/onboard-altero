@@ -59,6 +59,9 @@ export class RepPGFilling extends RepPG implements RepFilling {
       const dto = new ResponseBodyDTO_Filling(event);
       filteredResponseDTO.push(dto);
     }
+
+    if (!filteredResponseDTO) return null;
+
     return filteredResponseDTO;
   }
 }

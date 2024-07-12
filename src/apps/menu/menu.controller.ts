@@ -5,10 +5,12 @@ import {
   Param,
   Post,
   Put,
+  Req,
   Res,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { Roles, RolesGuard } from 'src/middlewares/auth.guard.middleware';
 import { ErrorInterceptor } from 'src/middlewares/errors.interceptors';
 import { UCMenu } from 'src/usecases/menu/menu.uc.main';
@@ -51,10 +53,19 @@ export class MenuController {
   @Post('admin/create')
   @Roles(['cashier'])
   @UseGuards(RolesGuard)
-  async createMenu(@Res() response, @Body() body: RequestBodyDTO_CreateMenu) {
+  async createMenu(
+    @Req() req: Request,
+    @Res() response,
+    @Body() body: RequestBodyDTO_CreateMenu,
+  ) {
     const { name, price, stock, description } = body;
 
-    const data = await this.ucMenu.createMenu(name, price, stock, description);
+    const data = await this.ucMenu.createMenu(req.cashier, {
+      name,
+      price,
+      stock,
+      description,
+    });
 
     return response.json({
       status: 201,
@@ -64,13 +75,15 @@ export class MenuController {
   }
 
   @Put('/admin/create/:id')
+  @Roles(['cashier'])
+  @UseGuards(RolesGuard)
   async updateMenu(
     @Param('id') id: string,
     @Res() response,
     @Body() body: RequestBodyDTO_UpdateMenu,
   ) {
     const { name, price, stock, description } = body;
-    console.log(body, id);
+
     const data = await this.ucMenu.updateMenu(
       id,
       name,

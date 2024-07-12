@@ -1,14 +1,29 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
+import { PersistedEntity } from 'src/domains/entities/base';
+import { User } from 'src/domains/entities/user';
 import { PersistedMenu, RepMenu } from 'src/services/repositories/rep.menu';
 import { generateRandomString } from 'src/utils/random-string';
 import { menus } from '../db/schema/menu';
+import { users } from '../db/schema/user';
 import { RepPG } from './rep.pg';
 
 @Injectable()
 export class RepPGMenu extends RepPG implements RepMenu {
   persist(): Promise<PersistedMenu> {
     throw new Error('Method not implemented.');
+  }
+
+  async findCashier(id: string): Promise<User & PersistedEntity> {
+    const result = await this.getDBContext()
+      .select()
+      .from(users)
+      .where(eq(users.id, id))
+      .limit(1);
+
+    if (!result.length) return null;
+
+    return { ...result[0], authAudience: [] };
   }
 
   async getMenuById(id: string): Promise<any> {

@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ApplicationModule } from './apps/apps.module';
-import { HttpExceptionFilter } from './nest-extensions/exception-filter';
+import { HttpExceptionFilter } from './nest-extensions/exception-filters';
 import { ValidationPipe } from './nest-extensions/pipe';
 
 async function bootstrap() {

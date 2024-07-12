@@ -20,6 +20,7 @@ export class UCFilling {
 
   async listFilling(query: QueryParam_Filling): Promise<Array<Filling>> {
     const listFilling = await this.repFilling.listFilling(query);
+
     if (listFilling.length === 0) {
       throw new FillingNotFound('Filling is empty');
     }

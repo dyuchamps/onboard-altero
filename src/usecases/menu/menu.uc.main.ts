@@ -1,4 +1,6 @@
 import { Injectable, Module } from '@nestjs/common';
+import { PersistedEntity } from 'src/domains/entities/base';
+import { Cashier } from 'src/domains/entities/cashier';
 import { Menu } from 'src/domains/entities/menu';
 import { RepMenu } from 'src/services/repositories/rep.menu';
 import { ServicesModule } from 'src/services/services.module';
@@ -26,12 +28,25 @@ export class UCMenu {
   }
 
   async createMenu(
-    name: string,
-    price: number,
-    stock: number,
-    description: string,
-  ): Promise<string> {
-    const response = await this.repMenu.create(name, price, stock, description);
+    cashier: Cashier & PersistedEntity,
+    newData: {
+      name: string;
+      price: number;
+      stock: number;
+      description: string;
+    },
+  ): Promise<Cashier & PersistedEntity> {
+    const user = await this.repMenu.findCashier(cashier.userId);
+    if (!user) {
+      throw new Error('Cashier not found');
+    }
+
+    const response = await this.repMenu.create(
+      newData.name,
+      newData.price,
+      newData.stock,
+      newData.description,
+    );
 
     return response[0];
   }

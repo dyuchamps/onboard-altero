@@ -1,6 +1,8 @@
 import { Injectable, Module } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import { config } from 'src/configs';
+import { PersistedEntity } from 'src/domains/entities/base';
+import { AccessToken, User } from 'src/domains/entities/user';
 import { RepAuth } from 'src/services/repositories/rep.auth';
 import { ServicesModule } from 'src/services/services.module';
 import { generateRandomString } from 'src/utils/random-string';
@@ -11,7 +13,10 @@ import { UserNotFound } from './auth.uc.errors';
 export class UCAuth {
   constructor(private repAuth: RepAuth) {}
 
-  async login(email: string, password: string): Promise<any> {
+  async login(
+    email: string,
+    password: string,
+  ): Promise<User | AccessToken | PersistedEntity | any> {
     const user = await this.repAuth.findUserByEmail(email);
     if (!user) {
       throw new UserNotFound('User not found');
@@ -21,18 +26,18 @@ export class UCAuth {
     if (!userLogin) {
       throw new Error('Failed to login');
     }
-    console.log('line 47: ', userLogin[0].email);
+
     const signed = signJWT(
       config.JWT_SECRET_KEY,
       { sub: userLogin[0].id },
-      // config.JWT_EXPIRES,
-      '1 minutes',
+      '1h',
+      ['cashier-auth'],
     );
     const signToTakeExpiresAt = signJWT(
       config.JWT_SECRET_KEY,
       { sub: userLogin[0].id },
-      // config.JWT_EXPIRES,
-      '3 minutes',
+      '2h',
+      ['cashier-auth'],
     );
 
     const idTokenData = jwt.decode(signed);
@@ -60,6 +65,7 @@ export class UCAuth {
       throw new Error('Failed to create refresh token');
     }
 
+    user.authAudience = ['cashier-auth'];
     return {
       email: userLogin[0].email,
       access_token: accessToken,
@@ -70,13 +76,29 @@ export class UCAuth {
     };
   }
 
-  async register(email: string, password: string): Promise<string> {
-    const newUser = await this.repAuth.register(email, password);
+  async register(
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+  ): Promise<any> {
+    const newUser = await this.repAuth.register(
+      email,
+      password,
+      firstName,
+      lastName,
+    );
     if (!newUser) {
       throw new Error('Failed to create user');
     }
 
-    return newUser[0];
+    return {
+      id: newUser.id,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
+      email: newUser.email,
+      createdAt: newUser.createdAt,
+    };
   }
 }
 

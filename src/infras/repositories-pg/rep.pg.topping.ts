@@ -46,6 +46,7 @@ export class RepPGTopping extends RepPG implements RepTopping {
         whereQuery.push(eq(queryFields[key], query[key]));
       }
     }
+    console.log('line 49: ', whereQuery);
 
     const response = await this.getDBContext()
       .select()

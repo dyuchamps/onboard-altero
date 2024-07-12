@@ -13,7 +13,8 @@ import {
   PostgresJsTransaction,
 } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
-import * as postgres from 'postgres';
+// import * as postgres from 'postgres';
+import postgres from 'postgres';
 import { config } from 'src/configs';
 
 export type Schema = {

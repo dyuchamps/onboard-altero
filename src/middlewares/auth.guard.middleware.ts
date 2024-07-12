@@ -5,7 +5,11 @@ import { Request } from 'express';
 export const Roles = Reflector.createDecorator<string[]>();
 
 function matchRoles(expectedRoles: Array<string>, request: Request): boolean {
-  if (expectedRoles.includes('cashier') && request) {
+  if (
+    expectedRoles.includes('cashier') &&
+    request.cashier !== undefined &&
+    request.cashier !== null
+  ) {
     return true;
   }
   return false;
@@ -22,7 +26,7 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest();
+    const request: Request = context.switchToHttp().getRequest();
     return matchRoles(roles, request);
   }
 }

@@ -29,8 +29,13 @@ export class AuthController {
     @Body() body: RequestBody_DTO_CreateUser,
   ): Promise<RequestBody_DTO_CreateUser> {
     const password = await encryptPassword(body.password);
-    const user = await this.ucAuth.register(body.email, password);
-
+    const user = await this.ucAuth.register(
+      body.email,
+      password,
+      body.firstName,
+      body.lastName,
+    );
+    console.log('line 38: ', user);
     return response.json({
       statusCode: 201,
       message: 'Successfull Registration User',

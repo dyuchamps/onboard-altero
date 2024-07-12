@@ -1,21 +1,3 @@
-// export class ResponseBodyDTO_Topping {
-//   @IsString()
-//   id: string;
-
-//   @IsString()
-//   menuId: string;
-
-//   @IsString()
-//   name: string;
-
-//   @IsInt()
-//   price: number;
-
-//   @IsDate()
-//   createdAt: Date;
-//   updatedAt: Date;
-// }
-
 export class ResponseBodyDTO_Topping {
   id: string;
   menuId: string;

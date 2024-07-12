@@ -52,21 +52,15 @@ export class RepPGAuth extends RepPG implements RepAuth {
 
   async findUserByEmail(email: string): Promise<User & PersistedEntity> {
     try {
-      const user = await this.getDBContext()
+      const _user = await this.getDBContext()
         .select()
         .from(users)
         .where(eq(users.email, email))
         .limit(1);
 
-      if (!user.length) return null;
+      if (!_user.length) return null;
 
-      return new User({
-        id: user[0].id,
-        email: user[0].email,
-        password: user[0].password,
-        createdAt: user[0].createdAt,
-        updatedAt: user[0].updatedAt,
-      });
+      return { ..._user[0], authAudience: [] };
     } catch (error) {
       throw error;
     }
@@ -84,6 +78,8 @@ export class RepPGAuth extends RepPG implements RepAuth {
 
     const cashier = new Cashier({
       id: results[0].cashiers.id,
+      email: results[0].users.email,
+      password: results[0].users.password,
       userId: results[0].cashiers.userId,
       firstName: results[0].cashiers.firstName,
       lastName: results[0].cashiers.lastName,
@@ -127,7 +123,12 @@ export class RepPGAuth extends RepPG implements RepAuth {
     }
   }
 
-  async register(email: string, password: string): Promise<any> {
+  async register(
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+  ): Promise<any> {
     try {
       const userExist = await this.getDBContext()
         .select()
@@ -143,7 +144,6 @@ export class RepPGAuth extends RepPG implements RepAuth {
         id: generateRandomString(10),
         email,
         password,
-        updatedAt: new Date(),
       };
 
       const user = await this.getDBContext()
@@ -158,7 +158,30 @@ export class RepPGAuth extends RepPG implements RepAuth {
         );
       }
 
-      return user;
+      const newCashier = {
+        id: generateRandomString(10),
+        userId: user[0].id,
+        firstName,
+        lastName,
+        createdAt: new Date(),
+      };
+
+      const cashier = await this.getDBContext()
+        .insert(cashiers)
+        .values(newCashier)
+        .returning();
+
+      if (!cashier) {
+        throw new HttpException(
+          'Failed to create cashier',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      return {
+        ...user[0],
+        ...cashier[0],
+      };
     } catch (error) {
       throw error;
     }

@@ -4,6 +4,7 @@ import {
 } from 'src/apps/menu/menu.dto';
 import { PersistedEntity } from 'src/domains/entities/base';
 import { Menu } from 'src/domains/entities/menu';
+import { User } from 'src/domains/entities/user';
 
 export class PersistedMenu extends Menu implements PersistedEntity {
   id: string;
@@ -27,6 +28,8 @@ export class PersistedMenu extends Menu implements PersistedEntity {
 
 export abstract class RepMenu {
   abstract persist(menu: Menu): Promise<PersistedMenu>;
+
+  abstract findCashier(id: string): Promise<User & PersistedEntity>;
 
   abstract getMenuById(id: string): Promise<ResponseBodyDTO_Menu>;
 

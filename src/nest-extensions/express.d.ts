@@ -7,7 +7,7 @@ export interface JWTPayload {
 }
 
 declare module 'express-serve-static-core' {
-  interface Request {
+  export interface Request {
     jwtPayload: JWTPayload;
     user?: User;
     cashier?: Cashier;

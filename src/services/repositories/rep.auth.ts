@@ -32,7 +32,12 @@ export abstract class RepAuth {
 
   abstract login(email: string, password: string): Promise<User>;
 
-  abstract register(email: string, password: string): Promise<User>;
+  abstract register(
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+  ): Promise<any>;
 
   abstract createAccess(
     accessToken: string,

@@ -1,5 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { AuthenticationMiddleware } from 'src/middlewares/auth.middleware';
+import { Module } from '@nestjs/common';
 import { ServicesModule } from 'src/services/services.module';
 import { UCOrderModule } from 'src/usecases/order/order.uc.main';
 import { ErrorHandler } from '../error-handler';
@@ -17,8 +16,4 @@ import { OrderErrorHandler } from './order.error-handler';
   ],
   controllers: [OrderController],
 })
-export class AppOrderModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthenticationMiddleware).forRoutes(OrderController);
-  }
-}
+export class AppOrderModule {}
